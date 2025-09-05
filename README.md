@@ -54,12 +54,10 @@ This repository provides:
 
 ---
 
-## ⚙️ Environment Setup
-### Installation
-```bash
-# Clone repository
-git clone https://github.com/JiachengXu66/MVision2.0.git
-cd MVision2.0
+## File List
 
-# Install dependencies
-pip install -r requirements.txt
+### Core Optimization Files
+- `optimized_train_model.py` - Optimized training model
+- `optimized_inference.py` - Optimized inference engine
+- `performance_comparison.py` - Performance comparison and analysis tool
+- `deploy_optimized_system.py` - Automated deployment script,including system setup and deployment-related functionalities
