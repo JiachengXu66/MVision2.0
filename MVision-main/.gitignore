@@ -1,0 +1,26 @@
+*/sources
+model_tasks
+model_repo
+*/environments.ts
+*/config.json
+*/node_modules
+*/Logs
+*/logs
+*.avi
+*.mp4
+*.conf
+*/results
+*/Excess
+extras
+*/analytics
+*.jpg
+*.dot
+*.txt
+Graphs
+Pipeline Export
+node/PyDeploy/analytics/Logs/*
+node/PyDeploy/results/*
+Excess
+
+
+

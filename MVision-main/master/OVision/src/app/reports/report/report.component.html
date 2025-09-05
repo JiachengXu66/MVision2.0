@@ -1,0 +1,19 @@
+<div class="container">
+    <div class="column">
+      <div class="box">
+        <div class="title">
+          <h1 class="title">{{report?.report_name}}</h1><h1 class="title">{{this.pageTitle}}</h1>
+        </div>
+        <div *ngIf="visualise.graph_type == 'line' && visualise.value_type == 'total' && graphReady" class="graph">
+          <app-line-multi-class [dataSet]="dataSets" [reportName]="report_name" [rangeType]="range_unit" [classMap]="classMap"></app-line-multi-class>
+        </div>
+        <div *ngIf="visualise.graph_type == 'line' && visualise.value_type == 'old'" class="graph">
+        <app-line-graph [dataSet]="chosenDataSet" ></app-line-graph>
+        <app-pagination [totalItems]="dataSets.length" [itemsPerPage]="itemsPerPage" (pageChange)="onPageChange($event)" class="page"></app-pagination>
+        </div>
+        <div *ngIf="visualise.graph_type == 'bar' && visualise.value_type == 'old'" class="graph">
+          <app-bar-graph [dataSets]="dataSets" ></app-bar-graph>
+          </div>
+      </div>
+    </div>
+</div> 

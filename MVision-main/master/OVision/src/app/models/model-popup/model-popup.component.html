@@ -1,0 +1,9 @@
+<div class="popup">
+  <h1>Tracked Classes</h1>
+  <ul>
+    <div *ngFor="let class of modelClasses">
+      <li>{{class}}</li>
+    </div>
+  </ul>
+  <button (click)="closePopup()">Close</button>
+</div>

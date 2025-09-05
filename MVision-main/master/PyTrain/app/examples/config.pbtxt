@@ -1,0 +1,18 @@
+name: "LTSM_Toyota_13"
+dynamic_batching { }
+platform: "tensorflow_savedmodel"
+max_batch_size: 1
+input [
+  {
+    name: "time_distributed_input"
+    data_type: TYPE_FP32
+    dims: [20, 224, 224, 3]
+  }
+]
+output [
+  {
+    name: "dense"
+    data_type: TYPE_FP32
+    dims: [5]
+  }
+]

@@ -1,0 +1,5 @@
+model_id,model_name,epochs,num_frames,shuffle_size,batch_size,creation_date,train,test,verification,location_name
+1,Culinary_Skills,10,10,100,2,2023-04-02,100,50,30,test_folder1
+2,Movement_Capabilities,10,10,100,2,2023-06-20,100,50,30,test_folder2
+3,Self_Sufficiency,10,10,100,2,2024-01-02,100,50,30,test_folder3
+4,Test_Maps,10,5,400,4,2024-01-02,400,50,40,test_folder4

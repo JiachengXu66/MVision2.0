@@ -1,0 +1,62 @@
+$font-stack: sans-serif, Arial
+// Standard colours
+$back-colour: #0d0d0d
+$box-colour: #ffffff
+$alt-colour: #3061AB
+$dark-colour: #404040
+$light-colour: #f7f7f7
+
+// Semantic colours
+$primary-colour: #f7f7f7
+$info-colour: #3061AB
+$success-colour: #6b9d5d
+$warning-colour: #eb8d25
+$danger-colour: #f44336
+  
+.popup 
+  position: fixed
+  top: 50%
+  left: 50%
+  transform: translate(-50%, -50%)
+  background-color: $box-colour
+  padding: 10px
+  z-index: 1000
+  border-radius: 12px
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1)    
+  h1
+    border-radius: 20px
+    background: $alt-colour
+    padding: 15px
+    width: fit-content
+    font-weight: 100
+    font-size: 24px
+    color: $light-colour
+
+ul      
+  list-style-type: disc  
+  padding-left: 20px
+  flex-direction: column
+  color: $dark-colour
+  li
+      font-weight: 600
+      position: relative
+      padding-left: 20px
+      padding-top: 10px
+      font-size: 20px
+
+button
+    background-color: $alt-colour
+    color: $light-colour
+    border-radius: 20px
+    font-size: 18px
+    margin-left: 20px
+    width: 125px
+    height: 40px
+    &:disabled
+        background-color: $dark-colour
+        color: $light-colour
+        border-radius: 20px
+        font-size: 18px
+        margin-left: 20px
+        width: 125px
+        height: 40px

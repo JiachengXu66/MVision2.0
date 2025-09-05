@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+    <div class="container">
+        <div class="column">
+            <div class="box">
+                <div class="title">
+                    <h1 class="title">Target Type</h1>
+                </div>
+                <p>Once confirmed the target type <a>cannot</a> be changed please choose carefully</p>
+                <div class="target-type">
+                    <label>Target Type</label>
+                    <select [(ngModel)]="selectedTargetType">
+                        <option>Choose Target Type</option>
+                        <option>Location</option>
+                        <option>Person</option>
+                    </select>
+                </div>
+            </div>
+            <div *ngIf="selectedTargetType==='Person'; else elseBlock">
+                <div class="box wide">
+                    <div class="title">
+                        <h1 class="title">Target Configuration: Person</h1>
+                    </div>
+                    <div class="config">
+                        <div class="column">
+                            <label>Target Name:</label>
+                            <label>Alt Name:</label>
+                            <label>Date of Birth:</label>
+                            <label>Role:</label>
+                        </div>
+                        <div class="column">
+                            <input type="text" [(ngModel)]="targetName">
+                            <input type="text" [(ngModel)]="altName">
+                            <input type="text" [(ngModel)]="dobEntry">
+                            <input type="text" [(ngModel)]="role">
+                        </div>
+                        <div class="column">
+                            <img>
+                            <button class="image">Upload Image</button>
+                        </div>
+                        <div class="column">
+                            <button [disabled]="submitStatus" (click)="createPerson()">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<ng-template #elseBlock>
+      <div *ngIf="selectedTargetType === 'Location'">
+        <div class="box wide">
+            <div class="title">
+                <h1 class="title">Target Configuration: Location</h1>
+            </div>
+            <div class="config">
+                <div class="column">
+                    <label>Target Name:</label>
+                    <label>Alt Name:</label>
+                    <label>Access:</label>
+                </div>
+                <div class="column">
+                    <input type="text" [(ngModel)]="targetName">
+                    <input type="text" [(ngModel)]="altName">
+                    <select [(ngModel)]="access">
+                        <option>private</option>
+                        <option>public</option>
+                    </select>
+                </div>
+                <div class="column">
+                    <img>
+                    <button class="image">Upload Image</button>
+                </div>
+                <div class="column">
+                    <button [disabled]="submitStatus" (click)="createLocation()">Submit</button>
+                </div>
+            </div>
+        </div>
+      </div>
+</ng-template>

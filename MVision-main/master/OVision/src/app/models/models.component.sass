@@ -1,0 +1,106 @@
+$font-stack: sans-serif, Arial
+// Standard colours
+$back-colour: #0d0d0d
+$box-colour: #ffffff
+$alt-colour: #3061AB
+$dark-colour: #404040
+$light-colour: #f7f7f7
+
+// Semantic colours
+$primary-colour: #f7f7f7
+$info-colour: #3061AB
+$success-colour: #6b9d5d
+$warning-colour: #eb8d25
+$danger-colour: #f44336
+
+div
+    border-radius: 20px
+
+svg
+    path
+        fill: $info-colour
+        &.alt
+            fill: $dark-colour
+
+.container 
+  display: flex
+  justify-content: center
+  margin-left:  150px
+  margin-right:  150px
+  
+  .column 
+    display: flex
+    flex-direction: column
+    margin: 20px    
+    gap: 50px
+    .box
+        min-width: 1000px
+        background-color: $box-colour
+        display: flex
+        flex-direction: column
+        justify-content: center
+        align-items: center
+        padding: 20px
+        padding-top: 5px
+        width: fit-content
+
+.title
+        background: $alt-colour
+        padding-left: 10px
+        padding-right: 10px
+        width: fit-content
+        h1
+            font-weight: 100
+            font-size: 24px
+            color: $light-colour
+    
+.table
+    margin: 0px
+    padding-top: 10px
+    display: flex
+    flex-direction: row
+    gap:10px  
+    font-size: 20px
+    color: $light-colour
+    table
+        border-collapse: collapse
+        border: none
+    td
+        height: 100px
+        text-align: center
+        color: $dark-colour
+        background:$light-colour
+        img
+            img
+            width:60px
+            height:60px
+    th
+        width: fit-content
+        padding:20px
+        &:nth-child(odd)
+            background:$dark-colour
+        &:nth-child(even)
+            background:$info-colour
+        &.tn
+            width:200px
+
+
+.options-bar
+    max-height: 50px
+    width: 100% 
+    display: flex
+    justify-content: space-between 
+    align-items: center
+    font-size: 20px
+    padding: 0px
+
+    .options-group
+        height: 100%
+        background-color: $light-colour
+        padding-left: 30px
+        padding-right: 30px
+        gap: 20px
+        display: flex
+        flex-direction: row 
+        justify-content: left
+        align-items: center

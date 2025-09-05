@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+    <div class="container">
+        <div class="column">
+            <div class="box">
+                <div class="title" >
+                    <h1 class="title">Deployment Configuration</h1>
+                </div>
+                <app-model-popup *ngIf="showModelPopup" [modelClasses]="modelInfoClasses" (close)="showModelPopup = false"></app-model-popup>
+                <div class="labels">
+                    <div class="column">
+                        <label>Deployment Name:</label>
+                    </div>
+                    <div class="column">
+                        <input type="text" [(ngModel)]="deploymentName">
+                    </div>
+                </div>
+                <div class="labels">
+                  <div class="column">
+                    <label class="date">Start Date:</label>
+                  </div>
+                  <div class="column">
+                    <input type="text" [(ngModel)]="deploymentStart">
+                  </div>
+                  <div class="column">
+                  <label>End Date:</label>
+                  </div>
+                  <div class="column">
+                      <input type="text" [(ngModel)]="deploymentEnd">
+                  </div>
+                </div>
+                <p>Select the configuration option and then select from the table below.</p>
+                <div>
+                    <button [disabled]="targetButtonStatus" (click)="selectTarget()">Target</button>
+                    <button  [disabled]="modelButtonStatus" (click)="selectModel()">Model</button>
+                    <button [disabled]="nodeButtonStatus" (click)="selectNode()">Node</button>
+                    <button  [disabled]="deviceButtonStatus" (click)="selectDevice()">Device</button>
+                    <button  class="submit" [disabled]="submitButtonStatus" (click)="submitDeployment()">Submit</button>
+                </div>
+            </div>
+            <div *ngIf="!displayOptionsTarget; else targetTables">
+              <div *ngIf="!displayOptionsModel; else modelTable">
+                <div *ngIf="!displayOptionsNode; else nodeTable">
+                  <div *ngIf="!displayOptionsDevice; else deviceTable">
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="column">
+            <div class="box">
+              <div class="title" >
+                <h1 class="title">Selected Configuration Settings</h1>
+              </div>
+              <div class="config">
+                <h1>Target Selection</h1>
+                <div *ngIf="selectedPerson == null; else personConfig">
+                </div>
+                <div *ngIf="selectedLocation == null; else locationConfig">
+                </div>
+                <h1>Model Selection</h1>
+                <div *ngIf="selectedModel == null; else modelConfig">
+                </div>
+                <h1>Node Selection</h1>
+                <div *ngIf="selectedNode == null || selectedDevice == null; else nodeConfig">
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<ng-template #targetTables>
+  <div class="box table">
+    <div class="title" >
+      <h1 class="title">Available Targets</h1>
+    </div>
+    <div *ngIf="persons.length === 0 && locations.length === 0">
+      <h1>No targets currently available</h1>
+    </div>
+    <div *ngIf="persons.length == 0; else personTable" >
+    </div>
+    <div *ngIf="locations.length == 0; else locationTable" >
+    </div>  
+    <div>
+      <app-pagination [totalItems]="targetLength" [itemsPerPage]="itemsPerPage" (pageChange)="onPageChange($event)"></app-pagination>
+    </div>
+</div>
+</ng-template>
+<!--Target Selection Templates-->
+<ng-template #personTable>
+    <div class="table">
+      <table>
+        <tr>
+          <th>Target Name</th>
+          <th>Alt Name</th>
+          <th>Creation Date</th>
+          <th>Status</th>
+          <th>Dob</th>
+          <th>Role</th>
+          <th>Age</th>
+          <th>Selection</th>
+        </tr>
+        <tr *ngFor="let person of persons">
+          <td>{{person.target_name}}</td>
+          <td>{{person.alt_name}}</td>
+          <td>{{person.creation_date.getDate()}}/{{person.creation_date.getMonth() + 1}}/{{person.creation_date.getFullYear()}}</td>
+          <td>{{person.status_value}}</td>
+          <td>{{person.dob.getDate()}}/{{person.dob.getMonth() + 1}}/{{person.dob.getFullYear()}}</td>
+          <td>{{person.role}}</td>
+          <td>{{person.getAge(person.dob)}}</td>                
+          <td >
+            <img [src]="person.target_id === selectedTarget?.target_id ? 'assets/svg/checked.svg' : 'assets/svg/unchecked.svg'" alt="Selection Icon" (click)="updateTargetSelection(person)">
+          </td>
+        </tr>
+      </table>
+    </div>
+  </ng-template>
+  <ng-template #locationTable>
+    <div class="table">
+      <table>
+        <tr>
+          <th>Target Name</th>
+          <th>Alt Name</th>
+          <th>Creation Date</th>
+          <th>Status</th>
+          <th>Access</th>
+          <th>Settings</th>
+        </tr>
+        <tr *ngFor="let location of locations">
+          <td>{{location.target_name}}</td>
+          <td>{{location.alt_name}}</td>
+          <td>{{location.creation_date.getDate()}}/{{location.creation_date.getMonth() + 1}}/{{location.creation_date.getFullYear()}}</td>
+          <td>{{location.status_value}}</td>
+          <td>{{location.access}}</td>
+          <td>
+            <img [src]="location.target_id === selectedTarget?.target_id ? 'assets/svg/checked.svg' : 'assets/svg/unchecked.svg'" alt="Selection Icon" (click)="updateTargetSelection(location)">
+          </td>
+        </tr>
+      </table>
+    </div>
+  </ng-template>
+  <ng-template #personConfig>
+    <label><b>Type: </b>Person</label>
+    <label><b>Name: </b>{{selectedPerson?.target_name}}</label>
+    <label><b>Alt Name: </b>{{selectedPerson?.alt_name}}</label>
+    <label><b>Age: </b>{{personAge}}</label>
+    <label><b>Role: </b>{{selectedPerson?.role}}</label>
+  </ng-template>
+  <ng-template #locationConfig>
+    <label><b>Type: </b>Location</label>
+    <label><b>Name: </b>{{selectedLocation?.target_name}}</label>
+    <label><b>Alt Name: </b>{{selectedLocation?.alt_name}}</label>
+    <label><b>Access: </b>{{selectedLocation?.access}}</label>
+  </ng-template>
+  <!--Model Selection Templates-->
+  <ng-template #modelTable>
+    <div class="box table">
+      <div class="title" >
+        <h1 class="title">Available Models</h1>
+      </div>
+    <div class="table">
+      <table>
+        <tr>
+          <th>Model Name</th>
+          <th>Configuration Type</th>
+          <th>Creation Date</th>
+          <th>Location</th>
+          <th>Class Info</th>
+          <th>Selection</th>
+        </tr>
+        <tr *ngFor="let model of models">
+          <td>{{model.model_name}}</td>
+          <td>{{mapModelConfiguration(model)}}</td>
+          <td>{{model.creation_date.getDate()}}/{{model.creation_date.getMonth() + 1}}/{{model.creation_date.getFullYear()}}</td>
+          <td>{{model.location_name}}</td>  
+          <td>
+            <svg width="45" height="45" viewBox="0 0 187 187" fill="none" xmlns="http://www.w3.org/2000/svg" (click)="togglePopup(model)">
+              <path class="alt" d="M85.7083 54.5417H101.292V70.125H85.7083V54.5417ZM85.7083 85.7083H101.292V132.458H85.7083V85.7083ZM93.5 15.5833C50.49 15.5833 15.5833 50.49 15.5833 93.5C15.5833 136.51 50.49 171.417 93.5 171.417C136.51 171.417 171.417 136.51 171.417 93.5C171.417 50.49 136.51 15.5833 93.5 15.5833ZM93.5 155.833C59.1387 155.833 31.1667 127.861 31.1667 93.5C31.1667 59.1388 59.1387 31.1667 93.5 31.1667C127.861 31.1667 155.833 59.1388 155.833 93.5C155.833 127.861 127.861 155.833 93.5 155.833Z" fill="#503E66"/>
+            </svg>            
+          </td>  
+          <td>
+            <img [src]="model.model_id === selectedModel?.model_id ? 'assets/svg/checked.svg' : 'assets/svg/unchecked.svg'" alt="Selection Icon" (click)="updateModelSelection(model)">
+          </td>  
+        </tr>
+      </table>
+      </div>
+      <div>
+        <app-pagination [totalItems]="modelLength" [itemsPerPage]="itemsPerPage" (pageChange)="onPageChange($event)"></app-pagination>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #modelConfig>
+    <label><b>Name: </b>{{selectedModel?.model_name}}</label>
+    <label><b>Configuration Types: </b>{{modelConfiguration}}</label>
+    <label><b>Classes: </b>{{modelClasses}}</label>
+  </ng-template>
+  <!--Node Selection Templates-->
+  <ng-template #nodeTable>
+    <div class="box table">
+      <div class="title" >
+        <h1 class="title">Available Nodes</h1>
+      </div>
+      <div class="table">
+        <table>
+          <tr>
+            <th>Node Name</th>
+            <th>Status</th>
+            <th>Creation Date</th>
+            <th>Selection</th>
+          </tr>
+          <tr *ngFor="let node of nodes">
+            <td>{{node.node_name}}</td>
+            <td>{{node.status_value}}</td>
+            <td>{{node.creation_date.getDate()}}/{{node.creation_date.getMonth() + 1}}/{{node.creation_date.getFullYear()}}</td>
+            <td *ngIf="node.status_value === 'Connected'; else nodeUnavailable">
+              <img [src]="node.node_id === selectedNode?.node_id ? 'assets/svg/checked.svg' : 'assets/svg/unchecked.svg'" alt="Selection Icon" (click)="updateNodeSelection(node)">
+            </td>  
+          </tr>
+        </table>
+        </div>
+        <div>
+          <app-pagination [totalItems]="nodeLength" [itemsPerPage]="itemsPerPage" (pageChange)="onPageChange($event)"></app-pagination>
+        </div>
+      </div>
+
+  </ng-template>
+  <ng-template #nodeUnavailable>
+    <td>
+      <img class="error" src= 'assets/svg/error.svg' alt="Selection Icon">
+    </td>
+  </ng-template>
+  <ng-template #nodeConfig>
+    <label><b>Name: </b>{{selectedNode?.node_name}}</label>
+    <label><b>Device: </b>{{selectedDevice?.device_name}}</label>
+  </ng-template>
+  <!--Device Selection Templates-->
+  <ng-template #deviceTable>
+    <div class="box table">
+      <div class="title" >
+        <h1 class="title">Available Devices</h1>
+      </div>
+      <div class="table">
+        <table>
+          <tr>
+            <th>Device Name</th>
+            <th>Type</th>
+            <th>Selection</th>
+          </tr>
+          <tr *ngFor="let device of devices">
+            <td>{{device.device_name}}</td>
+            <td>Camera</td>
+            <td>
+            <img [src]="device.device_id === selectedDevice?.device_id ? 'assets/svg/checked.svg' : 'assets/svg/unchecked.svg'" alt="Selection Icon" (click)="updateDeviceSelection(device)">
+            </td>  
+          </tr>
+        </table>
+        </div>
+        <div>
+          <app-pagination [totalItems]="deviceLength" [itemsPerPage]="itemsPerPage" (pageChange)="onPageChange($event)"></app-pagination>
+        </div>
+      </div>
+  </ng-template>

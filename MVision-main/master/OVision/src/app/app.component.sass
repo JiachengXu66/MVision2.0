@@ -1,0 +1,82 @@
+$font-stack: sans-serif, Arial
+// Standard colours
+$back-colour: #0d0d0d
+$box-colour: #ffffff
+$alt-colour: #3061AB
+$dark-colour: #404040
+$light-colour: #f7f7f7
+
+// Semantic colours
+$primary-colour: #f7f7f7
+$info-colour: #3061AB
+$success-colour: #6b9d5d
+$warning-colour: #eb8d25
+$danger-colour: #f44336
+
+
+body
+    font-family: $font-stack
+    background: $dark-colour
+    background-blend-mode: luminosity, normal
+    margin: 0
+    padding: 0
+    min-height: 100vh
+    height: auto
+    width: 100%
+
+svg
+    path
+        fill: $info-colour
+
+.navbar 
+    background: $box-colour
+    font-family: $font-stack
+    font-size: 24px
+    color: $alt-colour
+    width: 100%
+    height: 100px
+    flex-shrink: 0
+    display: flex
+    align-items: center
+    ul        
+        list-style: none
+        padding: 0
+        display: inline
+        li
+            font-weight: 700
+            display: inline-block
+            position: relative
+            padding: 20px
+            &.dropdown
+                &:hover .dropdown-content
+                    display: block
+        .company
+        padding-left: 80px
+        padding-right: 20px
+        li
+            padding: 20px
+        .home, .profile
+            li
+                padding: 20px
+        .options
+            padding: 50px
+            li
+                padding: 20px
+    .dropdown-content
+        display: none
+        position: absolute
+        background-color: $box-colour
+        min-width: 100px
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2)
+        a
+            font-size:20px
+            color: $dark-colour
+            padding: 12px 16px
+            text-decoration: none
+            display: block
+            &:hover
+                background-color: $alt-colour
+    
+.company-logo
+    max-height: 150px
+    max-width: 100%

@@ -1,0 +1,4 @@
+deployment_id,deployment_name,target_id,status_value,model_id,creation_date,start_date,expiry_date
+1,initial testing,1,complete,1,2024-01-23,2024-01-30,2024-02-07
+2,2023 screening,2,active,3,2024-01-23,2024-01-30,2026-01-30
+3,suck screening,2,active,3,2024-01-23,2024-01-30,2026-01-30

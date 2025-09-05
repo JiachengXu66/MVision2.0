@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+    <div class="container">
+        <div class="column">
+            <div class="box">
+                <div class="title">
+                    <h1 class="title">Report Type</h1>
+                </div>
+                <div class="labels">
+                    <div class="column">
+                        <label>Report Name:</label>
+                    </div>
+                    <div class="column name">
+                        <input type="text" [(ngModel)]="reportName">
+                    </div>
+                </div>
+                <p>Once confirmed the report type <a>cannot</a> be changed please choose carefully</p>
+                <div class="report-type">
+                    <label>Report Type</label>
+                    <select [(ngModel)]="selectedReportType" (ngModelChange)="configureGraph()">
+                        <option>Count Detections</option>
+                        <option>Time Spent</option>
+                        <option>Confidence Map</option>
+                    </select>
+                    <label>Graph Type</label>
+                    <select [(ngModel)]="selectedGraphType" (ngModelChange)="configureGraph()">
+                        <option>line</option>
+                        <option>bar</option>
+                    </select>
+                </div>
+                <p>Select the configuration option and then select from the table below.</p>
+                <div>
+                    <button  (click)="selectConfig()">Config</button>
+                    <button  (click)="selectDeployment()">Deployment</button>
+                    <button  [disabled]="classButtonStatus" (click)="selectClasses()">Classes</button>
+                    <button  class="submit" [disabled]="submitButtonStatus" (click)="submitReport()">Submit</button>
+                </div>
+        </div>
+        <div *ngIf="!displayOptionsConfig; else configOptions">
+            <div *ngIf="!displayOptionsDeployment; else sessions">
+                <div *ngIf="!displayOptionsClasses; else classOptions">
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="column">
+            <div class="box shorter">
+              <div class="title" >
+                <h1 class="title">Selected Configuration Settings</h1>
+              </div>
+              <app-line-multi-class [dataSet]="chosenDataSet" [reportName]="reportName" [rangeType]="selectedRange" [classMap]="classMap"></app-line-multi-class>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<ng-template #configOptions>
+    <div *ngIf="selectedReportType==='Count Detections' || selectedReportType==='Confidence Map'; else timeType">
+        <div class="box">
+            <div class="title">
+                <h1 class="title">Report Configuration: Count Detections</h1>
+            </div>
+            <p>Update frequency dictates the frequency at which the graph will update.<br>History range dictates how much data will be displayed.<br>Confidence threshold dictates the confidence percentage that an activity will be counted.<br>Graph types show the type of values that are displayed.
+            </p>
+            <div class="report-type">
+                <div class="column">
+                <div class="row">
+                    <label class="date">Update Frequency:</label>
+                    <input type="text" [(ngModel)]="updateFrequency">
+                    <select [(ngModel)]="selectedFrequency" (ngModelChange)="configureGraph()">
+                        <option>second</option>
+                        <option>minute</option>
+                        <option>hour</option>
+                        <option>day</option>
+                        <option>week</option>
+                        <option>month</option>
+                        <option>year</option>
+                    </select>
+                    <label>History Range:</label>
+                    <input type="text" [(ngModel)]="historyRange">
+                    <select [(ngModel)]="selectedRange" (ngModelChange)="configureGraph()">
+                        <option>minute</option>
+                        <option>hour</option>
+                        <option>day</option>
+                        <option>week</option>
+                        <option>month</option>
+                        <option>year</option>
+                    </select>
+                </div>
+                <div class="row">
+                    <label class="date">Confidence Threshold</label>
+                    <input type="text" [(ngModel)]="confidenceThreshold">
+                    <label>Graph type:</label>
+                    <select [(ngModel)]="selectedValueType" (ngModelChange)="configureGraph()">
+                        <option>average</option>
+                        <option>total</option>
+                    </select>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+<ng-template #sessions>
+    <div class="box table">
+        <div class="title" >
+        <h1 class="title">Available Targets</h1>
+        </div>
+        <div *ngIf="deploymentSessions.length === 0; else sessionTable">
+        <h1>No targets currently available</h1>
+        </div>
+        <div>
+        <app-pagination [totalItems]="maxLength" [itemsPerPage]="itemsPerPage" (pageChange)="onPageChange($event)"></app-pagination>
+        </div>
+    </div>
+</ng-template>
+<ng-template #sessionTable>
+    <div class="table">
+      <table>
+        <tr>
+          <th>Deployment Name</th>
+          <th>Target ID</th>
+          <th>Model ID</th>
+          <th>Status</th>
+          <th>Running Time</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Selection</th>
+        </tr>
+        <tr *ngFor="let session of deploymentSessions">
+          <td>{{session.deployment_name}}</td>
+          <td>{{session.target_id}}</td>
+          <td>{{session.model_id}}</td>
+          <td>{{session.status_value}}</td>
+          <td>{{session.running_time}} hrs</td>
+          <td>{{session.start_date.getDate()}}/{{session.start_date.getMonth() + 1}}/{{session.start_date.getFullYear()}}</td>
+          <td>{{session.expiry_date.getDate()}}/{{session.expiry_date.getMonth() + 1}}/{{session.expiry_date.getFullYear()}}</td>        
+          <td >
+            <img [src]="session.deployment_id === selectedDeployment?.deployment_id? 'assets/svg/checked.svg' : 'assets/svg/unchecked.svg'" alt="Selection Icon" (click)="updateDeploymentSelection(session)">          </td>
+        </tr>
+      </table>
+    </div>
+  </ng-template>
+<ng-template #classOptions>
+    <div class="box">
+        <div class="title" >
+        <h1 class="title">Available Classes</h1>
+        </div>
+        <div class="column">    
+            <p class="class" >At <a>least</a> one class must be selected to be displayed</p>
+            <div class="class" *ngFor="let class of modelInfoClasses">
+                <input type="checkbox" id="class-{{class}}"  [checked]="isChecked(class)"  (change)="toggleClassSelection(class, isChecked(class))">
+                <label class="class" for="class-{{class}}"> {{class}}</label>
+            </div>
+        </div>
+    </div>
+</ng-template>
+<ng-template #timeType>
+    <div *ngIf="selectedReportType==='Time Spent'; else noType">
+    </div>
+</ng-template>
+<ng-template #noType>
+    <div class="box">
+        <div class="title" >
+        <h1 class="title">Selected Configuration: None</h1>
+        </div>
+        <h1>No configuration currently selected</h1>
+    </div>
+</ng-template>

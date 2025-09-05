@@ -1,0 +1,3 @@
+report_id,report_name,deployment_id,frequency_value,frequency_unit,creation_date,last_gen,graph_id
+1,weekly screening report,2,1,week,2024-02-06,NULL,1
+2,monthly screening report,2,1,month,2024-02-06,NULL,2

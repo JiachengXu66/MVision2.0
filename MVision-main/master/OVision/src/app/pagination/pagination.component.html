@@ -1,0 +1,13 @@
+<nav>
+  <ul class="navlinks">
+    <li><a class="navlink" (click)="goToPage(1)">First</a></li>
+    <li><a class="navlink" (click)="goToPage(currentPage - 1)" [class.disabled]="currentPage === 1">&lt; Prev</a></li>
+    <li *ngFor="let page of pageNumbers">
+      <a class="navlink" (click)="goToPage(page)" [class.active]="page === currentPage">
+          {{ page }}
+      </a>
+    </li>
+    <li><a class="navlink" (click)="goToPage(currentPage + 1)" [class.disabled]="currentPage === totalPages">Next &gt;</a></li>
+    <li><a class="navlink" (click)="goToPage(totalPages)">Last</a></li>
+  </ul>
+</nav>

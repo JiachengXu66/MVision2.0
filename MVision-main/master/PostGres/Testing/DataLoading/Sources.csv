@@ -1,0 +1,4 @@
+source_id,source_name,company_name,vers,install_date,licensing,license_expiry_date
+1,mit,MIT,1.0,2023-11-28,public,2028-07-25
+2,coco,Microsoft,1.0,2023-06-21,public,2028-12-05
+3,toyota,Toyota,1.0,2023-01-31,private,2029-01-14

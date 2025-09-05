@@ -1,0 +1,43 @@
+version: '3.3'
+services:
+  db:
+    build:
+      context: ./PostGres
+    environment:
+      POSTGRES_USER: dbadmin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: ovision
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - master-bridge
+  web:
+    build:
+      context: ./OVision
+    ports:
+      - "4200:4200"
+    volumes:
+      - ./OVision:/app
+      - /app/node_modules
+    networks:
+      - master-bridge
+  api:
+    build: 
+      context: ./VLink
+    ports:
+     - "3000:3000"
+    volumes:
+     - ./VLink/logs:/app/logs
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - master-bridge
+volumes:
+  postgres_data:
+networks:
+  master-bridge:
+    external: true

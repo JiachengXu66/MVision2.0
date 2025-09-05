@@ -1,0 +1,208 @@
+$font-stack: sans-serif, Arial
+// Standard colours
+$back-colour: #0d0d0d
+$box-colour: #ffffff
+$alt-colour: #3061AB
+$dark-colour: #404040
+$light-colour: #f7f7f7
+
+// Semantic colours
+$primary-colour: #f7f7f7
+$info-colour: #3061AB
+$success-colour: #6b9d5d
+$warning-colour: #eb8d25
+$danger-colour: #f44336
+
+
+div
+    border-radius: 20px
+
+h1
+    color:$dark-colour
+
+input
+    margin: 0px
+    padding: 5px 5px 
+    border-radius: 20px 
+    border: 3px solid $dark-colour
+    outline: none  
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1)  
+    font-size: 18px  
+    height: 15px
+    transition: border-color 0.3s, box-shadow 0.3s  
+    &:focus
+        border-color: $alt-colour
+        box-shadow: 0px 0px 8px rgba(179, 116, 124, 0.6)  
+    
+.container 
+  display: flex
+  justify-content: left
+  margin-left:  150px
+  margin-right:  150px
+  
+  .column 
+    display: flex
+    flex-direction: column
+    justify-content: left
+    align-items: left
+    margin: 20px    
+    gap: 20px
+    .row
+        display: flex
+        flex-direction: row
+        align-items: center
+        gap: 20px
+        margin-bottom: 20px 
+    .box
+        min-width: 1000px
+        background-color: $box-colour
+        display: flex
+        flex-direction: column
+        justify-content: center
+        align-items: left
+        padding: 20px
+        padding-top: 15px
+        width: fit-content
+        p, label
+            font-weight: 100
+            font-size: 18px
+            color: $dark-colour
+            a
+                padding:5px
+                font-weight: bold
+                background: $warning-colour
+                border-radius: 10px
+            &.class
+                font-weight: bold
+                font-size: 20px
+                padding: 10px
+        &.shorter
+            min-width: 600px
+        &.table
+            align-items: center
+        button
+            background-color: $alt-colour
+            color: $light-colour
+            border-radius: 20px
+            font-size: 18px
+            margin-left: 20px
+            width: 125px
+            height: 40px
+            &.submit
+                margin-left: 150px
+            &:disabled
+                background-color: $dark-colour
+                color: $light-colour
+                border-radius: 20px
+                font-size: 18px
+                width: 125px
+                height: 40px
+
+    
+.config
+    display: flex
+    flex-direction: row
+    label
+        margin: 0px
+        padding: 5px
+    button
+        background-color: $alt-colour
+        color: $light-colour
+        border-radius: 20px
+        font-size: 18px
+        margin-top: 160px
+        margin-left: 120px
+        width: 125px
+        height: 40px
+        &:disabled
+            background-color: $dark-colour
+            color: $light-colour
+            border-radius: 20px
+            font-size: 18px
+            margin-left: 400px
+            width: 125px
+            height: 40px
+        &.image
+            margin-left: 20px
+            margin-top: -30px
+            width: 175px
+            height: 30px
+    img
+        width: 212px
+        height: 144px
+
+
+.report-type
+    display: flex
+    flex-direction: row
+    justify-content: left
+    align-items: center
+    gap: 10px
+    label
+        font-weight: 70
+        font-size: 18px
+        color: $dark-colour
+    input
+        width: 50px
+        text-align: center
+
+.name
+    input
+        width: 300px
+
+select
+    width: auto
+    height: 30px
+    font-size: 18px
+    color: $dark-colour  
+    background: $light-colour  
+    border: 3px solid $dark-colour
+    border-radius: 10px
+    padding-left: 10px
+    padding-right: 10px
+    &:hover
+        background: $alt-colour  
+        color: $light-colour
+
+.title
+        background: $alt-colour
+        padding-left: 10px
+        padding-right: 10px
+        width: fit-content
+        h1
+            font-weight: 100
+            font-size: 24px
+            color: $light-colour
+    
+.table
+    max-width: 1000px
+    margin: 0px
+    padding-top: 10px
+    display: flex
+    flex-direction: row
+    justify-content: center
+    gap:10px  
+    font-size: 20px
+    color: $light-colour
+    table
+        border-collapse: collapse
+        border: none
+    td
+        height: 100px
+        text-align: center
+        color: $dark-colour
+        background:$light-colour
+        img
+            width:30px
+            height:30px
+            &.error
+                width: 60px
+                height: 60px
+    th
+        width: fit-content
+        padding:20px
+        &:nth-child(odd)
+            background:$dark-colour
+        &:nth-child(even)
+            background:$info-colour
+

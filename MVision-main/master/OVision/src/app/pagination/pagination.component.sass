@@ -1,0 +1,31 @@
+$font-stack: sans-serif, Arial
+// Standard colours
+$back-colour: #0d0d0d
+$box-colour: #ffffff
+$alt-colour: #3061AB
+$dark-colour: #404040
+$light-colour: #f7f7f7
+
+// Semantic colours
+$primary-colour: #f7f7f7
+$info-colour: #3061AB
+$success-colour: #6b9d5d
+$warning-colour: #eb8d25
+$danger-colour: #f44336
+
+.navlinks
+    display: flex
+    align-content: top
+    flex-direction: row
+    li
+        list-style: none
+        padding-left: 10px
+        padding-right: 10px
+        font-size: 24px
+        color: $alt-colour
+        &:hover
+            font-weight: 800
+            color: $dark-colour
+    a
+        &.active 
+            color: $info-colour

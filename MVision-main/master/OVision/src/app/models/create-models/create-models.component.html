@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+    <div class="container">
+        <div class="column">
+            <div class="box" *ngIf="phase1; else selectClasses">
+                <div class="title" >
+                    <h1 class="title">Model Configuration</h1>
+                </div>
+                <div class="name">
+                    <div class="column">
+                        <label>Model Name:</label>
+                    </div>
+                    <div class="column">
+                        <input type="text" [(ngModel)]="modelName">
+                    </div>
+                </div>
+                <p>The below selection box provides all the current supported configuration options.</p>
+                <div class="target-type"*ngIf="configMap.length===0; else configurationOptions">
+                    <label >Configuration Option</label>
+                    <select [(ngModel)]="selectedConfig" (change)="onConfigChange()" >
+                        <option>No models available</option>
+                    </select>
+                </div>
+                <p>For <a>advanced</a> users custom configuration is available by ticking the advanced check box</p>
+                <div class="advanced">
+                    <label>Advanced Settings</label>
+                    <input [(ngModel)]="advancedSettings" type="checkbox">
+                    <button [disabled]="nextButtonStatus" (click)="getClasses()">Next</button>
+                </div>
+            </div>
+        </div>
+        <div class="column">
+            <div class="box">
+                <div class="title" *ngIf="selectedConfig === null; else selectedconfiguration">
+                    <h1 class="title">No Configuration Selected</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="advancedSettings" class="container">
+        <div class="column">
+            <div class="box">
+                <div class="title">
+                    <h1 class="title">Advanced Settings</h1>
+                </div>
+                <div class="config">
+                    <div class="column">
+                        <label>Epochs:</label>
+                        <label>Number of Frames:</label>
+                        <label>Batch Size:</label>
+                        <label>Shuffle Size:</label>
+                    </div>
+                    <div class="column">
+                        <input type="number" [(ngModel)]="customEpochs" (ngModelChange)="updateSelection()">
+                        <input type="number" [(ngModel)]="customNumFrames" (ngModelChange)="updateSelection()">
+                        <input type="number" [(ngModel)]="customBatchSize" (ngModelChange)="updateSelection()">
+                        <input type="number" [(ngModel)]="customShuffleSize" (ngModelChange)="updateSelection()">
+                    </div>
+                    <div class="column">
+                        <label>Train:</label>
+                        <label>Test:</label>
+                        <label>Verification:</label>
+                    </div>
+                    <div class="column">
+                        <input type="number" [(ngModel)]="customTrain" (ngModelChange)="updateSelection()">
+                        <input type="number" [(ngModel)]="customTest" (ngModelChange)="updateSelection()">
+                        <input type="number" [(ngModel)]="customVerification"  (ngModelChange)="updateSelection()">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<ng-template #configurationOptions>
+    <div class="target-type">
+        <label>Configuration Option</label>
+        <select [(ngModel)]="selectedConfig" (change)="onConfigChange()">
+            <option *ngFor="let configuration of configMap" [ngValue]="configuration">{{configuration.config_id}}:  {{configuration.config_name}}</option>
+        </select>
+    </div>
+</ng-template>
+<ng-template #selectedconfiguration>
+            <div class="title">
+                <h1 class="title">Selected Configuration:{{this.selectedConfig?.config_name}}</h1>
+            </div>
+            <div *ngIf="selectedConfig?.config_id === 1; else selectedConfigAccuracy">
+                <p>Configuration Goal: to enhance the models performance <br> in specific scenario by training it on a similar set of videos.</p>
+                <p><b>Applications:</b></p>
+                <ul>
+                    <li>In-house sourced videos</li>
+                    <li>Areas with sceneary that doesnt vary</li>
+                    <li>Few classes of interest</li>
+                </ul>
+            </div>
+            <div class="box" *ngIf="phase1; else classConfig">
+            </div>
+</ng-template>
+<ng-template #selectedConfigAccuracy>
+        <div *ngIf="selectedConfig?.config_id === 2; else selectedConfigVariability">
+            <p>Configuration Goal: to achieve high accuracy across a <br> diverse set of videos.</p>
+            <p><b>Applications:</b></p>
+            <ul>
+                <li>Diverse datasets with a wide range of classes</li>
+                <li>High variability in video content</li>
+                <li>Sensitive or critical use-cases</li>
+            </ul>
+</div>
+</ng-template>
+<ng-template #selectedConfigVariability>
+    <div *ngIf="selectedConfig?.config_id === 3; else selectedConfigSpeed">
+        <p>Configuration Goal: to ensure the model can generalize well across a wide range of scenarios.</p>
+        <p><b>Applications:</b></p>
+        <ul>
+            <li>Publicly sourced datasets with high diversity</li>
+            <li>Environments with changing conditions</li>
+            <li>Applications requiring robustness to variations</li>
+        </ul>
+    </div>
+</ng-template>
+<ng-template #selectedConfigSpeed>
+    <div *ngIf="selectedConfig?.config_id === 4; else selectedCustom">
+        <p>Configuration Goal: to optimize for quick iteration cycles and model prototyping.</p>
+        <p><b>Applications:</b></p>
+        <ul>
+            <li>Rapid development and testing cycles</li>
+            <li>Early-stage product development</li>
+            <li>Scenarios where time-to-market is critical</li>
+        </ul>
+    </div>
+</ng-template>
+<ng-template #selectedCustom>
+    <div *ngIf="selectedConfig?.config_id === 0">
+        <p>You are now customising your own configuration</p>
+        <p><a>Warning:</a></p>
+        <ul>
+            <li>Results are not guaranteed</li>
+            <li>Please test models on temporary <br> deployments for a review of their accuracy</li>
+        </ul>
+    </div>
+</ng-template>
+<ng-template #selectClasses>
+    <div class="box">
+        <div class="title">
+            <h1 class="title">Class Selection</h1>
+        </div>
+        <div class="classes" *ngFor="let category of categories; let i = index">
+            <span>{{category}}</span>
+            <button (click)="categoriesExpanded[i] = !categoriesExpanded[i]"></button>
+            <div *ngIf="categoriesExpanded[i]">
+              <div *ngFor="let class of selectValues(category)">
+                <input type="checkbox" id="class-{{class}}"  [checked]="isChecked(class)"  (change)="toggleClassSelection(class, isChecked(class))">
+                <label for="class-{{class}}">{{class}}</label>
+              </div>
+            </div>
+          </div>  
+        <div class="advanced">
+            <button [disabled]="previousButtonStatus" (click)="returnToModelConfig()">Go Back</button>
+            <button class="submit" [disabled]="nextButtonStatus" (click)="submitTask()">Submit</button>
+        </div>
+    </div>
+    <div class="box" *ngIf="this.taskRunning">
+        <div class="title">
+            <h1 class="title">Task Submitted</h1>
+        </div>
+        <div class="status">
+            <p>Please wait for your task to complete</p>
+            <h1>Current task status: <b>{{this.submittedTask?.status_value}}</b></h1>
+        </div>
+    </div>
+</ng-template>
+<ng-template #classConfig>
+    <p><b>Classes:</b></p>
+    <div class="classConfig">
+        <ul *ngFor="let classes of chosenClasses">
+            <li>{{classes}}</li>
+        </ul>
+    </div>
+</ng-template>

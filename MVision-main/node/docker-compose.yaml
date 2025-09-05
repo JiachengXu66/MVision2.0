@@ -1,0 +1,22 @@
+version: '2.3'
+services:
+  trition:
+    build:
+      context: ./Triton
+    ports:
+      - "8000:8000"
+      - "8001:8001"
+      - "8002:8002"
+    volumes:
+      - "remote-repo:/models"
+    command: "--model-repository=/models --backend-config=tensorflow,version=2 --model-control-mode=poll --repository-poll-secs=60"
+    stdin_open: true
+    tty: true
+    runtime: nvidia
+volumes:
+  remote-repo:
+    driver: local
+    driver_opts:
+      type: "nfs"
+      o: "addr=XXX.XXX.X.XXX,nolock,soft,rw"
+      device: ":/home/connor/Desktop/MVision/master/PyTrain/model_repo"

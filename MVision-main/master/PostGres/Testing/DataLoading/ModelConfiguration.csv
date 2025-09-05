@@ -1,0 +1,5 @@
+config_id,config_name,epochs,num_frames,shuffle_size,batch_size,train,test,verification
+1,Consistency,40,15,300,1,300,40,30
+2,Accuracy,30,10,1000,2,650,80,60
+3,Variability,20,8,1600,2,800,100,70
+4,Speed,10,5,400,4,400,50,40

@@ -1,0 +1,5 @@
+graph_id,graph_type
+1,bar
+2,line
+3,scatter
+4,histogram

@@ -1,0 +1,2 @@
+{"allowedIps":["::ffff:XXX.XXX.X.XXX","::ffff:XXX.XXX.XX.XXX"],
+"corsIps":["http://localhost:4200","http://localhost:8080","http://XXX.XXX.XXX.XXX:4200","http://XXX.XXX.0.XXX:4200","http://XXX.XXX.XX.XXX:4200"]}

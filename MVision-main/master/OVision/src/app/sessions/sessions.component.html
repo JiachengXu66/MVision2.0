@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+    <div class="container">
+      <div class="column">
+        <div class="box">
+          <div class="title">
+            <h1 class="title">Session</h1>
+          </div>
+          <div class="options-bar">
+            <div class="options-group">
+              <svg width="45" height="45" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M23.2991 21.1043H22.1471L21.7387 20.7106C23.4887 18.6689 24.3929 15.8835 23.8971 12.9231C23.2116 8.86893 19.8283 5.63143 15.745 5.1356C9.57622 4.37726 4.38456 9.56893 5.14289 15.7377C5.63872 19.821 8.87622 23.2043 12.9304 23.8898C15.8908 24.3856 18.6762 23.4814 20.7179 21.7314L21.1116 22.1398V23.2918L27.3096 29.4898C27.9075 30.0877 28.8846 30.0877 29.4825 29.4898C30.0804 28.8918 30.0804 27.9148 29.4825 27.3168L23.2991 21.1043ZM14.5491 21.1043C10.9179 21.1043 7.98664 18.1731 7.98664 14.5418C7.98664 10.9106 10.9179 7.97935 14.5491 7.97935C18.1804 7.97935 21.1116 10.9106 21.1116 14.5418C21.1116 18.1731 18.1804 21.1043 14.5491 21.1043Z" fill="#B3747C"/>
+                </svg>                
+              <p>Search</p>
+            </div>
+            <div class="options-group">
+              <p>Filter</p>
+              <svg width="45" height="45" viewBox="0 0 37 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16.9583 36H20.0417C20.8896 36 21.5833 35.1 21.5833 34C21.5833 32.9 20.8896 32 20.0417 32H16.9583C16.1104 32 15.4167 32.9 15.4167 34C15.4167 35.1 16.1104 36 16.9583 36ZM4.625 14C4.625 15.1 5.31875 16 6.16667 16H30.8333C31.6812 16 32.375 15.1 32.375 14C32.375 12.9 31.6812 12 30.8333 12H6.16667C5.31875 12 4.625 12.9 4.625 14ZM10.7917 26H26.2083C27.0562 26 27.75 25.1 27.75 24C27.75 22.9 27.0562 22 26.2083 22H10.7917C9.94375 22 9.25 22.9 9.25 24C9.25 25.1 9.94375 26 10.7917 26Z" fill="#B3747C"/>
+                </svg>     
+            </div>
+          </div>
+          <div *ngIf="deploymentSessions.length == 0; else sessionTable" >
+            <h1>No Sessions Currently Available</h1>
+          </div> 
+          <div>
+            <app-pagination [totalItems]="maxLength" [itemsPerPage]="itemsPerPage" (pageChange)="onPageChange($event)"></app-pagination>
+          </div>
+        </div>
+      </div>
+    </div>
+</body>
+<ng-template #sessionTable>
+<div>
+  <div class="table">
+    <table>
+      <tr>
+        <th>Deployment Name</th>
+        <th>Target ID</th>
+        <th>Model ID</th>
+        <th>Status</th>
+        <th>Running Time</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Settings</th>
+      </tr>
+      <tr *ngFor="let session of deploymentSessions">
+        <td>{{session.deployment_name}}</td>
+        <td>{{session.target_id}}</td>
+        <td>{{session.model_id}}</td>
+        <td *ngIf="['Disabled', 'Active', 'New'].includes(session.status_value); else nonChangeableStatus"><button (click)="switchStatusValue(session)">{{session.status_value}}</button></td>
+        <td>{{session.running_time}} hrs</td>
+        <td>{{session.start_date.getDate()}}/{{session.start_date.getMonth() + 1}}/{{session.start_date.getFullYear()}}</td>
+        <td>{{session.expiry_date.getDate()}}/{{session.expiry_date.getMonth() + 1}}/{{session.expiry_date.getFullYear()}}</td>        
+        <td>
+          <img src="assets/svg/settings.svg" alt="Settings Icon">
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+</ng-template>
+</html>
+<ng-template #nonChangeableStatus>
+  
+</ng-template>
